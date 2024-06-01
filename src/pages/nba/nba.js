@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {getData} from '../../clients/getData';
 import Search from '../../components/search/search';
 import Dropdown from '../../components/dropdown/dropdown';
+import SlidingPanel from '../../components/sliding-panel/sliding-panel';
 import {formatPlayerData} from './nba-helpers';
 import './nba.css';
 
@@ -29,7 +30,7 @@ export function NBA() {
   const [sortOrder, setSortOrder] = useState('asc');
   const [isActive, setIsActive] = useState('tab-0');
   const currentYear = new Date().getFullYear();
-  const yearArr = Array.from({length: currentYear - startYear + 1}, (_, index) => startYear + index);
+  const yearArr = Array.from({length: currentYear - startYear}, (_, index) => startYear + index);
 
   // fetch function
   useEffect(() => {
@@ -73,6 +74,7 @@ export function NBA() {
     setFilteredData(sortedData);
   };
 
+  // passed to drop down component
   const handleYearSelect = (selectedYear) => {
     setUrlYear(selectedYear);
   };
@@ -113,7 +115,7 @@ export function NBA() {
           <h1 className='margin-bottom-sm'>NBA {urlYear} {categoryLabel} - (top 200)</h1>
           <div className='margin-bottom-sm filters'>
             <Search setFilteredData={handleSearch} data={data} />
-            <Dropdown options={yearArr} onSelect={handleYearSelect} label='Select a year:' className='selectYear' />
+            <Dropdown options={yearArr} defaultSelection={yearArr[yearArr.length -1]} onSelect={handleYearSelect} label='Select a year:' className='selectYear' />
           </div>
           <div role='tablist' aria-orientation="horizontal">
             {tabContent.map((tab, index) => (
@@ -122,6 +124,7 @@ export function NBA() {
                 id={`tab-${index}`} key={index} onClick={() => selectedTab(index)}>{tab}</button>
             ))}
           </div>
+          <SlidingPanel yearArr={yearArr}><h1>Shot chart</h1></SlidingPanel>
           <table className="fl-table">
             <thead>
               <tr>

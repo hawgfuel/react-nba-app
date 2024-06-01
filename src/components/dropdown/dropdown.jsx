@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-export const Dropdown = ({ options, onSelect, label, className }) => {
-  const [selectedOption, setSelectedOption] = useState(options[options.length -1]);
+export const Dropdown = ({ options, onSelect, label, className, defaultSelection }) => {
+  const [selectedOption, setSelectedOption] = useState(defaultSelection);
   Dropdown.propTypes = {
     options: PropTypes.array,
     onSelect: PropTypes.func,
     label: PropTypes.string,
-    className: PropTypes.string
+    className: PropTypes.string,
+    defaultSelection: PropTypes.string
   }
   const handleSelect = (event) => {
-    const value = event.target.value;
-    setSelectedOption(value);
-    onSelect(value);
+    setSelectedOption(event.target.value);
+    onSelect(event.target.value);
   };
 
   return (

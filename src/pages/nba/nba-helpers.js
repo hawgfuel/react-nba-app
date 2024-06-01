@@ -1,5 +1,5 @@
 export function formatPlayerData (data){
-    var playerData = [];
+    const playerData = [];
     data.forEach(function(item) {
       playerData.push({
         id:item.id.toString(),
