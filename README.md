@@ -1,11 +1,5 @@
 
 
-Added craco-module-federation to support being in a microfront-end architecture. 
-This made it possible to not `eject` the Create React App while adding this functionality. 
-This way I can update this standalone nba app and host it on www.guicoder.com/nbaApp for demo purposes and update a single code base.
-
-running node v16.15.0 
-
 NBA Stats API v1.1 Beta Documentation
 https://documenter.getpostman.com/view/24232555/2s93shzpR3?ref=apilist.fun#intro
 
@@ -16,6 +10,12 @@ Custom components:
     - dropdown
     - sliding-panel
     - search
+    
+Added craco-module-federation to support being in a microfront-end architecture. 
+This made it possible to not `eject` the Create React App while adding this functionality. 
+This way I can update this standalone nba app and host it on www.guicoder.com/nbaApp for demo purposes and update a single code base.
+
+running node v16.15.0 
 
 ## Available Scripts
 
