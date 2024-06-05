@@ -6,6 +6,17 @@ This way I can update this standalone nba app and host it on www.guicoder.com/nb
 
 running node v16.15.0 
 
+NBA Stats API v1.1 Beta Documentation
+https://documenter.getpostman.com/view/24232555/2s93shzpR3?ref=apilist.fun#intro
+
+Table of top 200 players their stats sortable and filtered via name search or selected year.
+Slide out panel displays player shot selection with basketballs drawn to a canvas element basketaball court.
+
+Custom components:
+    - dropdown
+    - sliding-panel
+    - search
+
 ## Available Scripts
 
 ### `npm start`
