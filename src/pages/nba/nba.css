@@ -76,7 +76,7 @@ input, select, button {
     padding: 0 1.25rem;
     border: 1px solid #303030;
     border-radius: 2px;
-    margin: 0.625rem .3rem;
+    margin: 0.5rem .2rem;
     transition: all 250ms;
 }
 

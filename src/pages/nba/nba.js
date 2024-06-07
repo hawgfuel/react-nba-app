@@ -115,7 +115,7 @@ export function NBA() {
           <h1 className='margin-bottom-sm'>NBA {urlYear} {categoryLabel} - (top 200)</h1>
           <div className='margin-bottom-sm filters'>
             <Search setFilteredData={handleSearch} data={data} />
-            <Dropdown options={yearArr} defaultSelection={yearArr[yearArr.length -1]} onSelect={handleYearSelect} label='Select a year:' className='selectYear' />
+            <Dropdown options={yearArr} defaultSelection={yearArr[yearArr.length -1].toString()} onSelect={handleYearSelect} label='Select a year:' className='selectYear' />
           </div>
           <div role='tablist' aria-orientation="horizontal">
             {tabContent.map((tab, index) => (

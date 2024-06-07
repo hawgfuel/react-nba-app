@@ -17,15 +17,18 @@ const SlidingPanel = ({ yearArr }) => {
   const [coordinates, setCoordinates] = useState([]);
   const [filteredCoordinates, setFilteredCoordinates] = useState([]);
   const [uniqueDates, setUniqueDates] = useState([]);
+  const [previousPage, setPreviousPage]= useState('');
+  const [nextPage, setNextPage]= useState('');
   const [gameDate, setGameDate] = useState(null);
-  const [totalShots, setTotalShots] = useState(0);
-  const [totalMadeShots, setTotalMadeShots] = useState(0);
+  const [gameStats, setGameStats] = useState({'totalShots': 0, 'totalMadeShots':0, 'team': '', 'opponent': '' })
   const canvasRef = useRef(null);
   const imageRef = useRef(null);
   const baseUrl = 'https://nba-stats-db.herokuapp.com/api/shot_chart_data/';
   const playerArr = ['Lebron James', 'James Harden', 'Stephen Curry'];
   const [playerName, setPlayerName] = useState(playerArr[0]);
   const [urlYear, setUrlYear] = useState(yearArr[yearArr.length - 1]);
+  const [url, setUrl] = useState(`${baseUrl}${playerName}/${urlYear}/`);
+
   const togglePanel = () => {
     setIsOpen(!isOpen);
   };
@@ -40,19 +43,24 @@ const SlidingPanel = ({ yearArr }) => {
     setGameDate(selectedDate);
   };
 
+  useEffect(() =>{
+    setUrl(`${baseUrl}${playerName}/${urlYear}/`);
+   }, [playerName, urlYear]);
+
   // fetch function
   useEffect(() => {
     if (isOpen) {
-      const url = `${baseUrl}${playerName}/${urlYear}/`;
       getData(url, 'GET', 'force-cache').then((data) => {
         setCoordinates(data.results);
         const dates = data.results.map(item => item.date);
         const uniqueDatesArray = [...new Set(dates)];
+        setPreviousPage(data.previous);
+        setNextPage(data.next);
         setUniqueDates(uniqueDatesArray);
         setGameDate(uniqueDatesArray[0]); // Set initial selected date
       }).catch((e) => console.log('error')); // create error messaging
     }
-  }, [playerName, urlYear, isOpen]);
+  }, [isOpen, url]);
 
   // Filter coordinates based on selected game date
   useEffect(() => {
@@ -60,14 +68,11 @@ const SlidingPanel = ({ yearArr }) => {
       const filtered = coordinates.filter(coord => coord.date === gameDate);
       setFilteredCoordinates(filtered);
 
-      // Update total shot counts
-      setTotalShots(filtered.length);
-
       // Update total made shot counts (green shots)
       const totalMade = filtered.reduce((acc, curr) => {
         return curr.color === 'green' ? acc + 1 : acc;
       }, 0);
-      setTotalMadeShots(totalMade);
+      setGameStats({'totalShots': filtered.length, 'totalMadeShots': totalMade, 'team': filtered[0].team, 'opponent': filtered[0].opponent})
       setFilteredCoordinates(filtered);
     }
   }, [gameDate, coordinates]);
@@ -111,18 +116,24 @@ const SlidingPanel = ({ yearArr }) => {
           <div>
             <Dropdown options={yearArr} onSelect={handleYearSelect} defaultSelection={yearArr[yearArr.length - 1].toString()} label='Select season ending year:' className='selectSeason' /> 
           </div>
-          <div>
+          <div className="selectGame">
+            <button type='button' disabled={!previousPage} onClick={() => setUrl(previousPage)}>&lt; Previous</button>
               {uniqueDates.length > 0 && (
-                <Dropdown options={uniqueDates} onSelect={handleDateSelect} defaultSelection={uniqueDates[0]} label='Select game day:' className='selectDate' />
+                <Dropdown options={uniqueDates} onSelect={handleDateSelect} defaultSelection={uniqueDates[0]} label='Game date:' className='selectDate' />
               )}
+              <button type='button' disabled={!nextPage} onClick={() => setUrl(nextPage)}>Next &gt;</button>
             </div>
         </div>
         <div className="canvas-container">
           <img ref={imageRef} src={court} className="canvas-background" alt="Basketball Court" />
           <canvas ref={canvasRef} width={500} height={500}></canvas>
-          <div className="margin-top-small">Total Shots: {totalShots}</div>
-          <div>Total Made Shots: {totalMadeShots}</div>
-          <div>Shooting Percentage: {totalMadeShots/totalShots * 100}%</div>
+          <div className="gameStats">
+            <span><label>Total Shots:</label> {gameStats.totalShots}</span>
+            <span><label>Total Made Shots:</label> {gameStats.totalMadeShots}</span>
+            <span><label>Shooting:</label> {Math.round(gameStats.totalMadeShots/gameStats.totalShots * 100)}%</span>
+            <span><label>Team:</label> {gameStats.team}</span>
+            <span><label>Opponent:</label> {gameStats.opponent}</span>
+          </div>
         </div>
       </div>
     </div>

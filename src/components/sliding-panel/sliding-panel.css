@@ -37,4 +37,21 @@ canvas {
   left: 0;
 }
 
+.selectGame button{
+  border:none;
+  cursor:pointer;
+}
+
+.selectGame button:hover{
+  color:#aa6600;
+}
+
+.gameStats{
+  display: grid;
+  grid-template-columns: repeat(3, 3fr);
+  margin-top:2rem;
+  row-gap: 1em;
+}
+.gameStats label{font-weight: 600;}
+
 .margin-top-small {margin-top:2rem;}
