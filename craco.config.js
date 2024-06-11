@@ -1,28 +1,18 @@
-// nbaApp's craco.config.js
-
-const { ModuleFederationPlugin } = require("webpack").container;
+const { ModuleFederationPlugin } = require('webpack').container;
 
 module.exports = {
   webpack: {
     configure: (webpackConfig) => {
       webpackConfig.plugins.push(
         new ModuleFederationPlugin({
-          name: "nbaApp",
-          filename: "remoteEntry.js",
+          name: 'nbaApp',
+          filename: 'remoteEntry.js',
           exposes: {
-            "./Widget": "./src/Widget",
+            './Widget': './src/Widget', // Ensure this path is correct
           },
           shared: {
-            react: {
-              singleton: true,
-              eager: true,
-              requiredVersion: "^17.0.0" // Ensure this matches the version in package.json
-            },
-            "react-dom": {
-              singleton: true,
-              eager: true,
-              requiredVersion: "^17.0.0" // Ensure this matches the version in package.json
-            },
+            react: { singleton: true, eager: true, requiredVersion: '^18.2.0' },
+            'react-dom': { singleton: true, eager: true, requiredVersion: '^18.2.0' },
           },
         })
       );
