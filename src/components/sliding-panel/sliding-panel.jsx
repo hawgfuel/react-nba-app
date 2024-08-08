@@ -49,21 +49,27 @@ const SlidingPanel = ({ yearArr }) => {
 
   // fetch function
   useEffect(() => {
-    if (isOpen) {
-      getData(url, 'GET', 'force-cache').then((data) => {
-        setCoordinates(data.results);
-        const dates = data.results.map(item => item.date);
-        const uniqueDatesArray = [...new Set(dates)];
-        setPreviousPage(data.previous);
-        setNextPage(data.next);
-        setUniqueDates(uniqueDatesArray);
-        setGameDate(uniqueDatesArray[0]); // Set initial selected date
-      }).catch((e) => console.log('error')); // create error messaging
-    }
+    const fetchData = async () => {
+      if (!isOpen) return;
+      try {
+          const data = await getData(url, 'GET', 'force-cache');
+          setCoordinates(data.results);
+          const dates = data.results.map(item => item.date);
+          const uniqueDatesArray = [...new Set(dates)];
+          setPreviousPage(data.previous);
+          setNextPage(data.next);
+          setUniqueDates(uniqueDatesArray);
+          setGameDate(uniqueDatesArray[0]); // Set initial selected date
+      } catch (error) {
+        console.error('Fetch error:', error);
+      }
+    };
+    fetchData();
   }, [isOpen, url]);
 
   // Filter coordinates based on selected game date
   useEffect(() => {
+    if (!coordinates.length) return;
     if (gameDate) {
       const filtered = coordinates.filter(coord => coord.date === gameDate);
       setFilteredCoordinates(filtered);
@@ -78,6 +84,7 @@ const SlidingPanel = ({ yearArr }) => {
   }, [gameDate, coordinates]);
 
   useEffect(() => {
+    if (!filteredCoordinates.length) return;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     const courtImage = imageRef.current;

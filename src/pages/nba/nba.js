@@ -34,9 +34,17 @@ export function NBA() {
 
   // fetch function
   useEffect(() => {
-    const url = `${baseUrl}${categoryUrl}${urlYear}/`;
-    getData(url, 'GET', 'force-cache').then((data) => setData(data.results))
-        .catch((e) => console.log('error'));// create error messaging
+    const fetchData = async () => {
+      try {
+        const url = `${baseUrl}${categoryUrl}${urlYear}/`;
+        const data = await getData(url, 'GET', 'force-cache');
+        setData(data.results)
+        }
+        catch (error) {
+        console.error('Fetch error:', error);
+      }
+    }
+    fetchData();
   }, [categoryUrl, urlYear]);
 
   useEffect(() => {
@@ -50,7 +58,8 @@ export function NBA() {
     const filtered = data.filter((player) =>
       player.player_name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
-    setFilteredData(filtered);
+    const newData = formatPlayerData(filtered);
+    setFilteredData(newData);
   };
 
   const handleSort = (key) => {

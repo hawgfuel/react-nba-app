@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+
 const Search = ( {setFilteredData }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  Search.propTypes ={
-    setFilteredData: PropTypes.string
-  }
+
   const handleSearch = (event) => {
     const value = event.target.value;
     setSearchTerm(value);
@@ -31,4 +30,7 @@ const Search = ( {setFilteredData }) => {
   );
 };
 
+Search.propTypes = {
+  setFilteredData: PropTypes.func.isRequired // Ensure it's defined as a function
+};
 export default Search;
