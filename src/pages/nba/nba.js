@@ -3,6 +3,7 @@ import {getData} from '../../clients/getData';
 import Search from '../../components/search/search';
 import Dropdown from '../../components/dropdown/dropdown';
 import SlidingPanel from '../../components/sliding-panel/sliding-panel';
+import Table from '../../components/table/table';
 import {formatPlayerData} from './nba-helpers';
 import './nba.css';
 
@@ -134,44 +135,7 @@ export function NBA() {
             ))}
           </div>
           <SlidingPanel yearArr={yearArr}><h1>Shot chart</h1></SlidingPanel>
-          <table className="fl-table">
-            <thead>
-              <tr>
-                <th onClick={() => handleSort('player_name')}>Player</th>
-                <th onClick={() => handleSort('team')}>Team</th>
-                <th onClick={() => handleSort('PTS')}>Total Points</th>
-                <th onClick={() => handleSort('PTSPERGAME')}>Points/game</th>
-                <th onClick={() => handleSort('THREEPTSPERGAME')}>3pt/game</th>
-                <th onClick={() => handleSort('THREEPERCENT')}>3pt%</th>
-                <th onClick={() => handleSort('ORB')}>ORB</th>
-                <th onClick={() => handleSort('DRB')}>DRB</th>
-                <th onClick={() => handleSort('TRB')}>TRB</th>
-                <th onClick={() => handleSort('AST')}>AST</th>
-                <th onClick={() => handleSort('STL')}>STL</th>
-                <th onClick={() => handleSort('BLK')}>BLK</th>
-                <th onClick={() => handleSort('TOV')}>TOV</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredData.map((player) => (
-                <tr key={player.id}>
-                  <td>{player.player_name}</td>
-                  <td>{player.team}</td>
-                  <td>{player.PTS}</td>
-                  <td>{player.PTSPERGAME}</td>
-                  <td>{player.THREEPTSPERGAME}</td>
-                  <td>{player.THREEPERCENT}</td>
-                  <td>{player.ORB}</td>
-                  <td>{player.DRB}</td>
-                  <td>{player.TRB}</td>
-                  <td>{player.AST}</td>
-                  <td>{player.STL}</td>
-                  <td>{player.BLK}</td>
-                  <td>{player.TOV}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <Table filteredData={filteredData} handleSort={handleSort} />
         </div>
       ) : (
         <p className="content">No data available</p>
