@@ -29,5 +29,6 @@ export interface FilteredPlayerData {
     STL: number;
     BLK: number;
     TOV: number;
+    games?: number;
   }
   

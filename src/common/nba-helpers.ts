@@ -1,25 +1,21 @@
 
-import {FilteredPlayerData} from './types';
+import {FilteredPlayerData, PlayerData} from './types';
 
-export function formatPlayerData (data: any[]): FilteredPlayerData[]{
-    const playerData: any[] = [];
-    data.forEach(function(item) {
-      playerData.push({
-        id:item.id.toString(),
-        player_name:item.player_name,
-        team:item.team,
-        PTS:parseFloat(item.PTS),
-        PTSPERGAME: Math.trunc(item.PTS / item.games),
-        THREEPTSPERGAME:Math.trunc(item.three_fg / item.games),
-        THREEPERCENT:Math.floor(item.three_percent * 100),
-        ORB:parseFloat(item.ORB),
-        DRB:parseFloat(item.DRB),
-        TRB:parseFloat(item.TRB),
-        AST:parseFloat(item.AST),
-        STL:parseFloat(item.STL),
-        BLK:parseFloat(item.BLK),
-        TOV:parseFloat(item.TOV),
-      })
-    });
-    return playerData;
-  }
+export function formatPlayerData(data: PlayerData[]): FilteredPlayerData[] {
+  return data.map((item) => ({
+    id: item.id,
+    player_name: item.player_name,
+    team: item.team,
+    PTS: item.PTS,
+    PTSPERGAME:item.games ? Math.trunc(item.PTS / item.games) : 0,
+    THREEPTSPERGAME: item.games ? Math.trunc(item.THREEPERCENT / item.games) : 0,
+    THREEPERCENT: Math.floor(item.THREEPERCENT * 100),
+    ORB: item.ORB,
+    DRB: item.DRB,
+    TRB: item.TRB,
+    AST: item.AST,
+    STL: item.STL,
+    BLK: item.BLK,
+    TOV: item.TOV,
+  }));
+}
