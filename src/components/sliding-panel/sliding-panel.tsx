@@ -95,33 +95,47 @@ const SlidingPanel = ({ yearArr }: SlidingPanelProps) => {
 
   useEffect(() => {
     if (!filteredCoordinates.length || !canvasRef.current || !imageRef.current) return;
+  
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     const courtImage = imageRef.current;
-
-    const drawImage = () => {
+  
+    const markerGreenImage = new Image();
+    const markerRedImage = new Image();
+    markerGreenImage.src = markerGreen;
+    markerRedImage.src = markerRed;
+  
+    const drawMarkers = () => {
       if (ctx) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(courtImage, 0, 0, canvas.width, canvas.height);
-
-        const markerGreenImage = new Image();
-        const markerRedImage = new Image();
-        markerGreenImage.src = markerGreen;
-        markerRedImage.src = markerRed;
-
+  
         filteredCoordinates.forEach(coord => {
           const markerImage = coord.color === 'green' ? markerGreenImage : markerRedImage;
-          markerImage.onload = () => ctx?.drawImage(markerImage, coord.left - 9, coord.top - 9, 18, 18);
+          ctx.drawImage(markerImage, coord.left - 9, coord.top - 9, 18, 18);
         });
       }
     };
-
-    if (courtImage.complete) {
-      drawImage();
-    } else {
-      courtImage.onload = drawImage;
-    }
+  
+    const drawImage = () => {
+      if (courtImage.complete) {
+        drawMarkers();
+      } else {
+        courtImage.onload = drawMarkers;
+      }
+    };
+  
+    const onImagesLoaded = () => {
+      if (markerGreenImage.complete && markerRedImage.complete) {
+        drawImage();
+      } else {
+        markerGreenImage.onload = markerRedImage.onload = drawImage;
+      }
+    };
+  
+    onImagesLoaded();
   }, [filteredCoordinates]);
+  
 
   return (
     <div className="sliding-panel" style={{ backgroundColor: '#f0f0f0' }}>

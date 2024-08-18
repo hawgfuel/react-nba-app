@@ -14,7 +14,13 @@ module.exports = {
     'sourceType': 'module',
   },
   'plugins': [
-    'react',
+    "@typescript-eslint",
+    "react",
+    "react-hooks",
+    "jsx-a11y",
+    "jest",
+    "testing-library",
+    "import",
   ],
   'rules': {
     'max-len': [2, 120, {
