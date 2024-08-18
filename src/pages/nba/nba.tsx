@@ -4,7 +4,8 @@ import Search from '../../components/search/search';
 import Dropdown from '../../components/dropdown/dropdown';
 import SlidingPanel from '../../components/sliding-panel/sliding-panel';
 import Table from '../../components/table/table';
-import {formatPlayerData} from './nba-helpers';
+import {FilteredPlayerData, PlayerData} from '../../common/types';
+import {formatPlayerData} from '../../common/nba-helpers';
 import './nba.css';
 
 const startYear = 2011;
@@ -22,8 +23,8 @@ const poAssistsLabel = 'Playoff assist leaders';
 const tabContent = [poPointsLabel, poAssistsLabel, rsPointsLabel, rsAssistsLabel, rsReboundsLabel];
 
 export function NBA() {
-  const [data, setData] = useState<any[]>([]);
-  const [filteredData, setFilteredData] = useState<any[]>([]);
+  const [data, setData] = useState<PlayerData[]>([]);
+  const [filteredData, setFilteredData] = useState<FilteredPlayerData[]>([]);
   const [urlYear, setUrlYear] = useState<number>(2023);
   const [categoryUrl, setCategoryUrl]= useState<string>(poPointsUrl);
   const [categoryLabel, setCategoryLabel]= useState<string>(poPointsLabel);
@@ -50,7 +51,7 @@ export function NBA() {
 
   useEffect(() => {
     if (data.length > 0) {
-      const newData = formatPlayerData(data);
+      const newData = formatPlayerData(data) as FilteredPlayerData[];
       setFilteredData(newData);
     }
   }, [data]);
@@ -59,7 +60,7 @@ export function NBA() {
     const filtered = data.filter((player) =>
       player.player_name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
-    const newData = formatPlayerData(filtered);
+    const newData = formatPlayerData(filtered) as FilteredPlayerData[];
     setFilteredData(newData);
   };
 

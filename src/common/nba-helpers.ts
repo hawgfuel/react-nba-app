@@ -1,21 +1,7 @@
-interface PlayerData {
-  id: string;
-  player_name: string;
-  team: string;
-  PTS: number;
-  PTSPERGAME: number;
-  THREEPTSPERGAME: number;
-  THREEPERCENT: number;
-  ORB: number;
-  DRB: number;
-  TRB: number;
-  AST: number;
-  STL: number;
-  BLK: number;
-  TOV: number;
-}
 
-export function formatPlayerData (data: any[]): PlayerData[]{
+import {FilteredPlayerData} from './types';
+
+export function formatPlayerData (data: any[]): FilteredPlayerData[]{
     const playerData: any[] = [];
     data.forEach(function(item) {
       playerData.push({
