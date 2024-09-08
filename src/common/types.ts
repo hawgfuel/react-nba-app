@@ -21,6 +21,8 @@ export interface FilteredPlayerData {
     player_name: string;
     team: string;
     PTS: number;
+    three_attempts: number;
+    three_percent: string;
     THREEPERCENT: number;
     ORB: number;
     DRB: number;

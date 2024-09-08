@@ -8,8 +8,8 @@ export function formatPlayerData(data: PlayerData[]): FilteredPlayerData[] {
     team: item.team,
     PTS: item.PTS,
     PTSPERGAME:item.games ? Math.trunc(item.PTS / item.games) : 0,
-    THREEPTSPERGAME: item.games ? Math.trunc(item.THREEPERCENT / item.games) : 0,
-    THREEPERCENT: Math.floor(item.THREEPERCENT * 100),
+    THREEPTSPERGAME: item.games ? Math.trunc(item.three_attempts / item.games) : 0,
+    THREEPERCENT: Math.floor(Number(item.three_percent) * 100),
     ORB: item.ORB,
     DRB: item.DRB,
     TRB: item.TRB,
@@ -18,4 +18,5 @@ export function formatPlayerData(data: PlayerData[]): FilteredPlayerData[] {
     BLK: item.BLK,
     TOV: item.TOV,
   }));
+ 
 }
